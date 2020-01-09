@@ -39,3 +39,4 @@ Le projet s'organise de catégories contenants des forums dans lesquelles les ut
 
 ## Aperçu du forum
 ![GitHub Logo](screen.png)
+Format: ![Alt Text](screen.png)
