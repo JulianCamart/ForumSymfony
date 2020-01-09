@@ -37,5 +37,5 @@ Le projet s'organise de catégories contenants des forums dans lesquelles les ut
 * Ajouter/Modifier/Supprimer un forum au sein d'une catégorie
 * Supprimer une catégorie
 
-## Aperçu du forum
+## Aperçu du forum *(connecté en tant que SuperAdmin)*
 ![GitHub Logo](screen.png)
