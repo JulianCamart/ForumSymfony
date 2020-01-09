@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h3>Mon profil</h3>
+<br>
+<h4>Mon image d'avatar</h4>
+{% if user.avatar is not null %}
+<img src="/uploads/avatars/{{user.avatar.avatarImg}}" width="150" height="150">
+<h5>Modifier image d'avatar</h5>
+
+{{ form_start(formAvatarImg) }}
+
+    {{ form_widget(formAvatarImg.avatarImg) }}
+    <br>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+
+{{ form_end(formAvatarImg) }}
+{% else %}
+<h5>Ajouter une image d'avatar</h5>
+
+{{ form_start(formAvatarImg) }}
+
+    {{ form_widget(formAvatarImg.avatarImg) }}
+    <br>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+
+{{ form_end(formAvatarImg) }}
+{% endif %}
+
+{% endblock body %}

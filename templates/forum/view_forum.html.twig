@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1> {{forum.ForumName}} </h1>
+<section> {# Fil D'arianne #}
+<h6>
+<a href="/forum">{{forum.category.CatName}}</a>  {{forum.ForumName}}
+</h6>
+</section>
+
+<section class ="threads">
+
+    <table class="table table-hover">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">Thread Name</th>
+                            <th scope="col">Auteur</th>
+                            <th scope="col">Nombre de message</th>
+                            <th scope="col">date dernier message</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+            {% for thread in forum.threads  %}
+
+                        <tbody>
+
+                            <tr class="table-primary">
+                                <th scope="row"><a href="{{ path('view_thread', {'CatName': forum.category.CatName, 'CatId': forum.category.id , 'ForumId': forum.id, 'id': thread.id} )}}"> {{thread.ThreadName}} </a> </th>
+                                <td>{{thread.ThreadAuthor.Username}}</td>
+                                <td>{{thread.posts | length}}</td>
+                                <td>fo ke ça fond k si on ne</td>
+                                <td>
+                                    <a href="{{ path('edit_thread', {'CatName': forum.category.CatName, 'CatId': forum.category.id , 'ForumId': forum.id, 'id': thread.id} )}}">
+                                        <button type="button" class="btn btn-primary btn-sm">Modifier</button>
+                                    </a>
+                                    <a href="{{ path('remove_thread', {'CatName': forum.category.CatName, 'CatId': forum.category.id , 'ForumId': forum.id, 'id': thread.id} )}}">
+                                    <button type="button" class="btn btn-danger btn-sm">Supprimer topic</button>
+                                    </a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+
+
+            {% endfor %}
+    </table>
+
+{% if not app.user %}
+{% else %}
+<div>
+    <label for=""><h4>Ecrire un nouveau Topic</h4></label>
+    <a href="{{ path('new_thread', {'CatName': forum.category.CatName, 'CatId': forum.category.id , 'id': forum.id} )}}"><button type="button" class="btn btn-primary"> Nouveau </button></a>
+</div>
+{% endif %}
+
+</section>
+
+{% endblock body %}

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{{ form_start(formReport) }}
+
+        <div>
+            <label for=""><h4>Signalement</h4></label>
+            {{ form_widget(formReport.ReportText, {'attr' : {'placeholder' : "Expliquez rapidement vos raisons" }}) }}
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Signaler</button>
+
+{{ form_end(formReport) }}
+
+
+{% endblock body %}

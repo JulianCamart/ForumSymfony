@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{# {% form_theme ThreadForm 'bootstrap_4_layout.html.twig' %} #}
+
+{% block body %}
+
+    <section> {# Fil D'arianne #}
+    <h6>
+    <a href="/forum">{{Forum.category.CatName}}</a>
+    <a href="{{ path('view_forum' , {'CatName': Forum.category.CatName, 'CatId': Forum.category.id , 'id': Forum.id}) }}">  {{Forum.ForumName}}</a>
+    </h6>
+    </section>
+
+    <h1>Créer un nouveau topic</h1>
+
+    {{ form_start(NewThreadForm) }}
+        <div>
+            <label for=""><h4>Titre :</h4></label>
+            {{ form_widget(NewThreadForm.ThreadName, {'attr' : {'placeholder' : "Ecrivez le tittre de votre thread" }}) }}
+        </div>
+        <br>
+        <div>
+            <label for=""><h4>Commentaire :</h4></label>
+            {{ form_widget(NewThreadForm.ThreadText, {'attr' : {'placeholder' : "Ecrivez votre post" }}) }}
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer la modification</button>
+    {{ form_end(NewThreadForm) }}
+
+{% endblock body %}

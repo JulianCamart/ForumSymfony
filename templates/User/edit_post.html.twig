@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1> {{Post.thread.ThreadName}} </h1>
+    <section> {# Fil D'arianne #}
+    <h6><a href="{{ path('view_forums_and_categorys')}}">{{Post.thread.forum.category.CatName}}</a>
+    <a href="{{ path('view_forum', {'CatName': Post.thread.forum.category.CatName ,'CatId': Post.thread.forum.category.id,'id' : Post.thread.forum.id} ) }}">  {{Post.thread.forum.ForumName}}</a>
+    <a href="{{ path('view_thread' , {'CatName': Post.thread.forum.category.CatName, 'CatId': Post.thread.forum.category.id , 'ForumId': Post.thread.forum.id, 'id': Post.thread.id}) }}">  {{Post.thread.ThreadName}}</a>
+    </h6>
+    </section>
+
+    <h1> Modifier un post </h1>
+
+    {{ form_start(PostForm) }}
+        <div>
+            <label for=""><h4>Commentaire :</h4></label>
+            {{ form_widget(PostForm.PostText, {'attr' : {'placeholder' : "Modifiez votre réponse..." }}) }}
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Modifier</button>
+    {{ form_end(PostForm) }}
+    <br>
+
+{% endblock body %}

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{#    {% form_theme formNewForum 'bootstrap_4_layout.html.twig'  %} #}
+
+
+
+{% block body %}
+
+<h1>Créer un forum</h1>
+<br>
+<br>
+
+{{ form_start(ForumForm) }}
+
+    <div>
+    <label for=""><h4>Catégorie</h4></label>
+    {{ form_widget(ForumForm.category) }}
+    </div>
+    <br>
+    <div>
+    <label for=""><h4>Titre du forum</h4></label>
+    {{ form_widget(ForumForm.ForumName, {'attr' : {'placeholder' : "Ecrivez le titre..." }}) }}
+    </div>
+    <br>
+    <div>
+    <label for=""><h4>Description du forum</h4></label>
+    {{ form_widget(ForumForm.ForumDescription, {'attr' : {'placeholder' : "Ecrivez la description..." }}) }}
+
+<button type="submit" class="btn btn-primary">Nouveau forum</button>
+
+{{ form_end(ForumForm) }}
+{% endblock body %}

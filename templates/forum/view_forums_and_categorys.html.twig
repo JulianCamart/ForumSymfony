@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+ <style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Apex Legend France Forum non connécté</h1>
+</div>
+
+<div>
+    <h5>Derniers Messages</h5>
+    <table class="table table-hover">
+
+        <thead>
+            <tr>
+                <th scope="col">Thread</th>
+                <th scope="col">Auteur</th>
+                <th scope="col">Nombre de messages</th>
+                <th scope="col">Heure dernier message</th>
+            </tr>
+        <thead>
+
+        <tbody>
+            <tr class="table-secondary">
+                <th scope="row">Tuto faire un forum avec Symfony</th>
+                <td>Maximus</td>
+                <td>12</td>
+                <td>le 08/02/2019 à 13:54 </td>
+            </tr>
+        </tbody>
+
+        <tbody>
+            <tr class="table-secondary">
+                <th scope="row">Tuto faire un forum avec Symfony</th>
+                <td>Maximus</td>
+                <td>12</td>
+                <td>le 08/02/2019 à 13:54 </td>
+            </tr>
+        </tbody>
+
+        <tbody>
+            <tr class="table-secondary">
+                <th scope="row">Tuto faire un forum avec Symfony</th>
+                <td>Maximus</td>
+                <td>12</td>
+                <td>le 08/02/2019 à 13:54 </td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+
+<div>
+    <h3>Catégories</h3>
+    {% if not app.user %}
+    {% else %}
+    <a href="{{ path('new_forum')}}"><button type="button" class="btn btn-primary btn-sm">Ajouter un nouveau forum</button></a>
+    <a href="forum/new_category"><button type="button" class="btn btn-primary btn-sm">Ajouter une nouvelle Catégorie</button></a>
+    {% endif %}
+    <section class="categories">
+        {% for categorie in categories %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">{{categorie.CatName}}</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Nombre de topic</th>
+                        <th scope="col">Nombre de messages</th>
+                        <th scope="col">
+                            <a href="{{ path('edit_category', {'id': categorie.id})}}">
+                                <button type="button" class="btn btn-primary btn-sm">Modifier catégorie</button>
+                            </a>
+                            <a href="{{ path('remove_category', {'id': categorie.id})}}">
+                                <button type="button" class="btn btn-danger btn-sm">Suprimer catégorie</button>
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                {% for forum in categorie.forums %}
+                    <tbody>
+                        <tr class="table-primary">
+                            <th scope="row"><a href="{{ path('view_forum' , {'CatName': categorie.CatName, 'CatId': categorie.id , 'id': forum.id}) }}">{{forum.ForumName}} </a></th>
+                            <td>{{forum.ForumDescription}}</td>
+                            <td>{{ forum.threads | length }}</td>
+
+                             <td>  </td>
+
+                            <td>
+                                <a href="{{ path('edit_forum', {'id': forum.id})}}">
+                                    <button type="button" class="btn btn-primary btn-sm">Modifier forum</button>
+                                </a>
+
+                                <a href="{{ path('remove_forum', {'id': forum.id})}}">
+                                    <button type="button" class="btn btn-danger btn-sm">Suprimer forum</button>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </table>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

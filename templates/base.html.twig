@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <title>
+            {% block title %}Symfony Forum{% endblock %}
+        </title>
+
+
+            {% block stylesheets %}
+
+                BOOTSWATCH CSS
+                <link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.css">
+
+                {#CUSTOM CSS#}
+                {#<link rel="stylesheet" href="/build/css/app.css">#}
+
+            {% endblock %}
+
+
+            {#<link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.css"/>#}
+
+
+    </head>
+
+    <body>
+
+        {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+        {% endfor %}
+
+        {% for message in app.flashes('warning') %}
+                <div class="alert alert-warning">
+                    {{ message }}
+                </div>
+        {% endfor %}
+
+        {% for message in app.flashes('danger') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+        {% endfor %}
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="/">Forum Symfony</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('view_forums_and_categorys')}}">
+                            Forum
+                            <span class="sr-only">
+                                (current)
+                            </span>
+                        </a>
+                    </li>
+
+                    {# ACCES USERS #}
+                    {% if app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('private_message')}}">
+                                Messagerie
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('member_list') }}">
+                                Membres
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">
+                            About
+                        </a>
+                    </li>
+
+                    {# BOUTON SE CO/DECO #}
+                    {% if not app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('security_login') }}">
+                                Connexion
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href='{{ path('security_registration') }}'>
+                                S'inscrire
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('security_logout') }}">
+                                Se déconnecter
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {# CONFIG PANEL ADMINISTRATION #}
+                    {% if is_granted('ROLE_MODERATOR') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Espace Moderation</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('admin_show_messages') }}">Espace Admin</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Espace SUPER Admin</a>
+                        </li>
+                    {% endif %}
+
+
+                </ul>
+
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+                        Search
+                    </button>
+                </form>
+
+            </div>
+
+        </nav>
+
+        <br>
+
+        <div class="container">
+
+            {% block body %}{% endblock %}
+
+        </div>
+
+
+        {% block footer %}
+            <footer>
+                <div class="container">
+                    <h4>{# METTRE UN FOOTER ICI #}</h4>
+                </div>
+            </footer>
+        {% endblock %}
+
+
+
+
+        {% block javascripts %}
+
+        {% endblock %}
+
+
+    </body>
+
+</html>

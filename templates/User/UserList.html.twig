@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Liste des membres du forum</h1>
+
+    <section>
+        <table class="table table-hover">
+
+            <thead>
+                <tr>
+                    <th scope="col">Utilisateur</th>
+                    <th scope="col">Nombre de topics</th>
+                    <th scope="col">Nombre de messages</th>
+                    <th></th>
+                </tr>
+            </thead>
+            {% for user in users %}
+                <tbody>
+                    <tr class="table-secondary">
+                        <th scope="row">{{user.username}}</th>
+                        <td>{{user.threads | length}}</td>
+                        <td>{{user.posts | length}}</td>
+                        <td>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ path('member_profile',{'id': user.id  })}}'">
+                            Voir Profile
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </section>
+
+{% endblock body %}

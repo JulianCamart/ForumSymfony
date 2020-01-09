@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Comfirmation d'email</title>
+</head>
+<body>
+    <p>
+        Bonjour, <br>
+        Cliquez sur ce lien pour comfirmer votre email.
+        {# pour que le lien fonctionne, il est indispensable que le lien soit absolu. #}
+        <a href="{{absolute_url(path('resetting', {'id': user.id, 'token': user.token}))}}">Comfirmer mon email</a>
+    </p>
+</body>
+</html>

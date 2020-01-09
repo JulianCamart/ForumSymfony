@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if AlertUsername == true %}
+        <script>alert('Cet utilisateur n\'existe pas')</script>
+    {% endif %}
+
+    <section>
+        <h1>Envoyer un message</h1>
+        {{ form_start(SendPrivateMessageForm) }}
+            <div>
+                <label for=""><h4>Envoyer un message à</h4></label>
+                {{ form_widget(SendPrivateMessageForm.ReceiverUsername, {'attr' : {'value' : usernameToSend }}) }}
+            </div>
+            <br>
+            <div>
+                <label for=""><h4>Texte du message</h4></label>
+                {{ form_widget(SendPrivateMessageForm.MessageText, {'attr' : {'placeholder' : "Ecrivez votre message" }}) }}
+            </div>
+            <button type="submit" class="btn btn-primary">Envoyer Message</button>
+
+        {{ form_end(SendPrivateMessageForm) }}
+    </section>
+
+{% endblock %}

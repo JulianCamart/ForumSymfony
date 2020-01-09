@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>
+    Créer une catégorie
+</h1>
+
+{{ form_start(CatForm) }}
+
+    {{ form_row(CatForm.CatName, {'label': 'Nom Catégorie', 'attr' : {'placeholder' : "Ecrivez le nom de votre catégorie" }} ) }}
+
+    <button type="submit" class="btn btn-primary">Nouvelle catégorie</button>
+
+{{ form_end(CatForm) }}
+
+{% endblock body %}

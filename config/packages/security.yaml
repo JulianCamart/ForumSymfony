@@ -1,0 +1,51 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory: { memory: ~ }
+        database_users:
+            entity: { class: App\Entity\User, property: username }
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+
+            pattern: ^/
+
+            anonymous: ~
+
+            provider: database_users
+
+            form_login:
+                login_path: security_login
+                check_path: security_login
+                csrf_token_generator: security.csrf.token_manager
+                default_target_path: view_forums_and_categorys
+                always_use_default_target_path: true
+
+            logout:
+                path: security_logout
+                target: view_forums_and_categorys
+
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
+    role_hierarchy:
+        ROLE_MODERATOR: ROLE_USER
+        ROLE_ADMIN: ROLE_MODERATOR
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    #access_control:
+    #    - { path: ^/superadmin, roles: ROLE_SUPER_ADMIN }
+    #    - { path: ^/admin, roles: ROLE_ADMIN }
+    #    - { path: ^/moderator, roles: ROLE_MODERATOR }
+    #    - { path: ^/, roles: ROLE_USER }

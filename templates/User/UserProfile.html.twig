@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h3> Profil de {{userProfile.username}}</h3>
+
+<button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ path('private_message_send_to',{'id': userProfile.id  })}}'">
+Envoyer un message
+</button>
+
+<button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ path('report_user', {'id': userProfile.id  })}}'">
+    Signaler utilisateur
+</button>
+
+{% endblock body %}

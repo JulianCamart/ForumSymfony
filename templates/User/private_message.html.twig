@@ -1,0 +1,277 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{% if AlertUsername == true %}
+<script>alert('Cet utilisateur n\'existe pas')</script>
+{% endif %}
+<section class ="ReceivedMessage">
+    <h1> Message reçu </h1>
+    {% if ReceptionBox is not empty %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Auteur du message</th>
+                    <th scope="col">Texte du message</th>
+                    <th scope="col">Date du message</th>
+                    <th scope="cole">Action</th>
+                </tr>
+            </thead>
+            {% for receivedMessage in ReceptionBox  %}
+                <tbody>
+                    <tr class="table-primary">
+                        <td>{{receivedMessage.MessageAuthor.username}}</td>
+                        <td>{{receivedMessage.MessageText}}</td>
+                        <td>
+                            {% if date(receivedMessage.MessageTime) < date('-1days') %}
+                                {{receivedMessage.MessageTime | date('d/m/Y')}}
+                            {% else %}
+                                {{receivedMessage.MessageTime | date('H:i')}}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('private_message_archived', {'id': receivedMessage.id})}}">
+                                <button type="button" class="btn btn-primary btn-sm">Archiver Message</button>
+                            </a>
+                            <a href="{{ path('private_message_deleted', {'id': receivedMessage.id})}}">
+                                <button type="button" class="btn btn-danger btn-sm">Supprimer Message</button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h3>Boite de reception vide</h3>
+    {% endif %}
+</section>
+<br>
+<br>
+<section class ="SendMessage">
+    <h1> Message envoyés </h1>
+    {% if SendingBox is not empty %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Cible du message</th>
+                    <th scope="col">Texte du message</th>
+                    <th scope="col">Date du message</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            {% for sendMessage in SendingBox  %}
+                <tbody>
+                    <tr class="table-primary">
+                        <td>{{sendMessage.MessageReceiver.username}}</td>
+                        <td>{{sendMessage.MessageText}}</td>
+                        <td>
+                            {% if date(sendMessage.MessageTime) < date('-1days') %}
+                                {{sendMessage.MessageTime | date('d/m/Y')}}
+                            {% else %}
+                                {{sendMessage.MessageTime | date('H:i')}}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('private_message_archived', {'id': sendMessage.id})}}">
+                                <button type="button" class="btn btn-primary btn-sm">Archiver Message</button>
+                            </a>
+                            <a href="{{ path('private_message_deleted', {'id': sendMessage.id})}}">
+                                <button type="button" class="btn btn-danger btn-sm">Supprimer Message</button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h3>Pas de messages envoyés</h3>
+    {% endif %}
+</section>
+<br>
+<br>
+<section class ="ArchivedMessage">
+    <h1>Message Archivés</h1>
+    {% if ArchivedBoxReceive is empty and ArchivedBoxSend is empty %}
+        <h3>Pas de messages Archivés</h3>
+    {% else %}
+        {% if ArchivedBoxReceive is not empty %}
+        <h3>Messages reçus</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Auteur du message</th>
+                    <th scope="col">Texte du message</th>
+                    <th scope="col">Date du message</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            {% for ArchivedReceiveMessage in ArchivedBoxReceive  %}
+                <tbody>
+                    <tr class="table-primary">
+                        <td>{{ArchivedReceiveMessage.MessageAuthor.username}}</td>
+                        <td>{{ArchivedReceiveMessage.MessageText}}</td>
+                        <td>
+                            {% if date(ArchivedReceiveMessage.MessageTime) < date('-1days') %}
+                                {{ArchivedReceiveMessage.MessageTime | date('d/m/Y')}}
+                            {% else %}
+                                {{ArchivedReceiveMessage.MessageTime | date('H:i')}}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('private_message_archived', {'id': ArchivedReceiveMessage.id})}}">
+                                <button type="button" class="btn btn-primary btn-sm">Désarchiver Message</button>
+                            </a>
+                            <a href="{{ path('private_message_deleted', {'id': ArchivedReceiveMessage.id})}}">
+                                <button type="button" class="btn btn-danger btn-sm">Supprimer Message</button>
+                            </a>
+                        </td>            
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        {% else %}
+        <h3>Aucun message reçu archivé</h3>
+        {% endif %}
+        {% if ArchivedBoxSend is not empty %}
+        <h3>Messages envoyés</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Cible du message</th>
+                    <th scope="col">Texte du message</th>
+                    <th scope="col">Date du message</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            {% for ArchivedSendMessage in ArchivedBoxSend  %}
+                <tbody>
+                    <tr class="table-primary">
+                        <td>{{ArchivedSendMessage.MessageReceiver.username}}</td>
+                        <td>{{ArchivedSendMessage.MessageText}}</td>
+                        <td>
+                            {% if date(ArchivedSendMessage.MessageTime) < date('-1days') %}
+                                {{ArchivedSendMessage.MessageTime | date('d/m/Y')}}
+                            {% else %}
+                                {{ArchivedSendMessage.MessageTime | date('H:i')}}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('private_message_archived', {'id': ArchivedSendMessage.id})}}">
+                                <button type="button" class="btn btn-primary btn-sm">Désarchiver Message</button>
+                            </a>
+                            <a href="{{ path('private_message_deleted', {'id': ArchivedSendMessage.id})}}">
+                                <button type="button" class="btn btn-danger btn-sm">Supprimer Message</button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        {% else %}
+        <h3>Aucun message envoyé archivé</h3>
+        {% endif %}
+    {% endif %}
+</section>
+<br>
+<br>
+<section class ="DeletedMessage">
+    <h1>Message Suprimés</h1>
+    {% if DeletedBoxReceive is empty and DeletedBoxSend is empty %}
+        <h3>Pas de messages suprimé</h3>
+    {% else %}
+
+        {% if DeletedBoxReceive is not empty %}
+        <h3>Messages reçus</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Auteur du message</th>
+                    <th scope="col">Texte du message</th>
+                    <th scope="col">Date du message</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            {% for DeletedReceiveMessage in DeletedBoxReceive  %}
+                <tbody>
+                    <tr class="table-primary">
+                        <td>{{DeletedReceiveMessage.MessageAuthor.username}}</td>
+                        <td>{{DeletedReceiveMessage.MessageText}}</td>
+                        <td>
+                            {% if date(DeletedReceiveMessage.MessageTime) < date('-1days') %}
+                                {{DeletedReceiveMessage.MessageTime | date('d/m/Y')}}
+                            {% else %}
+                                {{DeletedReceiveMessage.MessageTime | date('H:i')}}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('private_message_archived', {'id': DeletedReceiveMessage.id})}}">
+                                <button type="button" class="btn btn-primary btn-sm">Archiver Message</button>
+                            </a>
+                            <a href="{{ path('private_message_deleted', {'id': DeletedReceiveMessage.id})}}">
+                                <button type="button" class="btn btn-danger btn-sm">Annuler la suppression</button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        {% else %}
+        <h3>Aucun message reçu suprimé</h3>
+        {% endif %}
+        {% if DeletedBoxSend is not empty %}
+        <h3>Messages envoyés</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Cible du message</th>
+                    <th scope="col">Texte du message</th>
+                    <th scope="col">Date du message</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            {% for DeletedSendMessage in DeletedBoxSend  %}
+                <tbody>
+                    <tr class="table-primary">
+                        <td>{{DeletedSendMessage.MessageReceiver.username}}</td>
+                        <td>{{DeletedSendMessage.MessageText}}</td>
+                        <td>
+                            {% if date(DeletedSendMessage.MessageTime) < date('-1days') %}
+                                {{DeletedSendMessage.MessageTime | date('d/m/Y')}}
+                            {% else %}
+                                {{DeletedSendMessage.MessageTime | date('H:i')}}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('private_message_archived', {'id': DeletedSendMessage.id})}}">
+                                <button type="button" class="btn btn-primary btn-sm">Archiver Message</button>
+                            </a>
+                            <a href="{{ path('private_message_deleted', {'id': DeletedSendMessage.id})}}">
+                                <button type="button" class="btn btn-danger btn-sm">Annuler la suppression</button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        {% else %}
+        <h3>Aucun message envoyé suprimé</h3>
+        {% endif %}
+    {% endif %}
+</section>
+<br>
+<br>
+<section>
+<h1>Envoyer un message</h1>
+{{ form_start(SendPrivateMessageForm) }}
+    <div>
+        <label for=""><h4>Envoyer un message à</h4></label>
+        {{ form_widget(SendPrivateMessageForm.ReceiverUsername, {'attr' : {'placeholder' : "Envoyer à...(pseudo)" }}) }}
+    </div>
+    <br>
+    <div>
+        <label for=""><h4>Texte du message</h4></label>
+        {{ form_widget(SendPrivateMessageForm.MessageText, {'attr' : {'placeholder' : "Ecrivez votre message" }}) }}
+    </div>
+    <button type="submit" class="btn btn-primary">Envoyer Message</button>
+
+{{ form_end(SendPrivateMessageForm) }}
+</section>
+{% endblock %}

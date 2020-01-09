@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>
+    Modifier la catégorie : {{Categorie.CatName}}
+</h1>
+
+<h6>
+    <a href="/forum">{{Categorie.CatName}}</a>
+</h6>
+
+{{ form_start(CatForm) }}
+
+    {{ form_row(CatForm.CatName, {'label': 'Nom Catégorie', 'attr' : {'placeholder' : "Ecrivez le nom de votre catégorie" }} ) }}
+
+    <button type="submit" class="btn btn-primary">Enregistrer la modification</button>
+
+{{ form_end(CatForm) }}
+
+{% endblock body %}

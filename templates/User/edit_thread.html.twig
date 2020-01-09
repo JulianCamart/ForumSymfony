@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{# {% form_theme ThreadForm 'bootstrap_4_layout.html.twig' %} #}
+
+{% block body %}
+
+    <h1>Modifier le topic : {{Thread.ThreadName}}</h1>
+
+<section> {# Fil D'arianne #}
+<h6>
+<a href="/forum">{{Thread.forum.category.CatName}}</a>
+<a href="{{ path('view_forum' , {'CatName': Thread.forum.category.CatName, 'CatId': Thread.forum.category.id , 'id': Thread.forum.id}) }}">  {{Thread.forum.ForumName}}</a>
+<a href="{{ path('view_thread' , {'CatName': Thread.forum.category.CatName, 'CatId': Thread.forum.category.id , 'ForumId': Thread.forum.id, 'id': Thread.id}) }}">  {{Thread.ThreadName}}</a>
+</h6>
+
+    {{ form_start(EditThreadForm) }}
+        {% if is_granted('ROLE_MODERATOR') %}
+            <div>
+                <label for=""><h4>Forum</h4></label>
+                {{ form_widget(EditThreadForm.forum) }}
+            </div>
+            <button type="submit" class="btn btn-primary">Déplacer le topic</button>
+        {% else %}
+            <div>
+                <label for=""><h4>Forum</h4></label>
+                {{ form_widget(EditThreadForm.forum) }}
+            </div>
+            <div>
+                <label for=""><h4>Titre :</h4></label>
+                {{ form_widget(EditThreadForm.ThreadName, {'attr' : {'placeholder' : "Ecrivez le tittre de votre thread" }}) }}
+            </div>
+            <br>
+            <div>
+                <label for=""><h4>Commentaire :</h4></label>
+                {{ form_widget(EditThreadForm.ThreadText, {'attr' : {'placeholder' : "Ecrivez votre post" }}) }}
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+        {% endif %}
+    {{ form_end(EditThreadForm) }}
+{% endblock body %}

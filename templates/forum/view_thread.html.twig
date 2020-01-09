@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{# {% form_theme formPost 'bootstrap_4_layout.html.twig' %} #}
+
+{% block body %}
+    <h1> {{thread.ThreadName}} </h1>
+    <section> {# Fil D'arianne #}
+    <h6><a href="/forum">{{thread.forum.category.CatName}}</a><a href="{{ path('view_forum', {'CatName': thread.forum.category.CatName ,'CatId': thread.forum.category.id,'id' : thread.forum.id} ) }}">  {{thread.forum.ForumName}}</a>  {{thread.ThreadName}}</h6>
+    </section>
+<section style="background-color:#7A8288; border-color:black; margin: 50px; color:white;">
+        <article style="background-color:white; border-color:black; margin: 50px; color:white;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">{{thread.ThreadAuthor.Username}}</th>
+                        <th scope="col">{{thread.ThreadText}}</th>
+                        <th scope="col">Posté le {{thread.ThreadTime | date('d/m/Y') }} à {{thread.ThreadTime | date('H:i')}}</th>
+                        <th scope="col">
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ path('report_thread', {'id': thread.id  })}}'">
+                                Signaler topic
+                            </button>
+                        </th>
+                    </tr>
+                <thead>
+            </table>
+
+        </article>
+
+    {% for post in thread.posts  %}
+
+        <article style="background-color:grey; border-color:black; margin: 50px; color:white;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">{{post.PostAuthor.Username}}</th>
+                        <th scope="col">{{post.PostText}}</th>
+                        <th scope="col">Posté le {{post.PostTime | date('d/m/Y') }} à {{post.PostTime | date('H:i')}}</th>
+                        {% if app.user %}
+                        <th>
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') or post.PostAuthor.Id == app.user.Id %}
+                        <a href="{{ path('edit_post', {'CatName': post.thread.forum.category.CatName, 'CatId': post.thread.forum.category.id , 'ForumId': post.thread.forum.id, 'ThreadId': post.thread.id, 'id' : post.id} )}}">
+                            <button type="button" class="btn btn-primary btn-sm">Modifier post</button>
+                        </a>
+                        <a href="{{ path('remove_post',  {'CatName': post.thread.forum.category.CatName, 'CatId': post.thread.forum.category.id , 'ForumId': post.thread.forum.id, 'ThreadId': post.thread.id, 'id' : post.id} ) }}">
+                            <button type="button" class="btn btn-primary btn-sm">Supprimer post</button>
+                        </a>
+                        {% endif %}
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ path('report_post', {'id': post.id  })}}'">
+                            Signaler post
+                        </button>
+                        </th>
+                        {% endif %}
+
+                    </tr>
+                <thead>
+        </article>
+
+    {% endfor %}
+    </table>
+</section>
+{% if app.user %}
+    {{ form_start(PostForm) }}
+        <div>
+            <label for=""><h4>Commenter</h4></label>
+            {{ form_widget(PostForm.PostText, {'attr' : {'placeholder' : "Ecrivez votre commentaire" }}) }}
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Répondre</button>
+    {{ form_end(PostForm) }}
+{% endif %}
+
+
+{% endblock body %}
